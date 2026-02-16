@@ -22,3 +22,26 @@ h1{
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
 }
+
+li {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding: 6px;
+    background: #eee;
+    border-radius: 6px;
+}
+
+li button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+li span {
+    cursor: pointer;
+}
+
+li span:hover {
+    color: #2f80ed;
+}

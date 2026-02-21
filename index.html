@@ -21,14 +21,51 @@
         </div>
 
         <div class="card">
+
             <h2>⏰ Pomodoro</h2>
+            <h2 id="modeLabel">Modo: Foco</h2>
+            <h2>Configurações</h2>
+
+            <label>Tempo de Foco (min):</label>
+            <input type="number" id="workInput" value="25" min="1">
+
+            <label>Tempo de Pausa (min):</label>
+            <input type="number" id="breakInput" value="5" min="1">
+
+            <button onclick="applySettings()">Aplicar</button>
+
+            <h2 id="timer">25:00</h2>
+
+            <button onclick="startTimer()">Iniciar</button>
+            <button onclick="pauseTimer()">Pausar</button>
+            <button onclick="resetTimer()">Resetar</button>
         </div>
 
         <div class="card">
             <h2>🎧 Lo-fi</h2>
+
+            <hr>
+
+            <h2>Música para foco</h2>
+
+            <button onclick="toggleMusic()">Abrir / Fechar Música</button>
+
+            <div id="musicContainer" style="display: none; margin-top: 15px">
+                <iframe
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/jfKfPfyJRdk"
+                    title="LoFi"
+                    frameborder="0"
+                    allow="autoplay; encrypted-media"
+                    allowfullscreen>
+                </iframe>
+            </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="storage.js"></script>
+    <script src="pomodoro.js"></script>
+    <script src="ui.js"></script>
 </body>
 </html>

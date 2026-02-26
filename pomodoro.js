@@ -1,8 +1,8 @@
 // Tempo padrão (25 minutos em segundos)
-let workTime = 10 ;
+let workTime = 5 ;
 
 // Tempo de pausa (5 minutos)
-let breakTime = 5 ;
+let breakTime = 3 ;
 
 // Tempo atual que está sendo contado
 let currentTime = workTime;
@@ -14,6 +14,8 @@ let timerRunning = false;
 let timerInterval = null;
 
 let currentMode = "work"; 
+
+let completedSessions = 0;
 
 function applySettings() {
     const workMinutes = document.getElementById("workInput").value;
@@ -40,6 +42,11 @@ function applySettings() {
 
 function switchMode() {
     if (currentMode === "work") {
+        // terminou um ciclo de foco → conta!
+        completedSessions++;
+        updateSessionCounter();
+        saveSessionCount();
+
         currentMode = "break";
         currentTime = breakTime;
         alert("Hora da pausa!");
@@ -94,20 +101,32 @@ function resetTimer() {
     updateDisplay();
 }
 
-updateDisplay();
+
+function updateSessionCounter() {
+    document.getElementById("sessionCounter").textContent =
+        `Sessões concluídas: ${completedSessions}`;
+}
 
 window.addEventListener("load", () => {
+
+    // 🔹 Carrega configurações salvas
     const settings = loadSettings();
 
     if (settings) {
         workTime = settings.workTime;
         breakTime = settings.breakTime;
-
         currentTime = workTime;
-        updateDisplay();
 
-        // Atualiza os inputs visuais
         document.getElementById("workInput").value = workTime / 60;
         document.getElementById("breakInput").value = breakTime / 60;
     }
+
+    // 🔹 Carrega contador de sessões
+    completedSessions = loadSessionCount();
+    updateSessionCounter();
+
+    // 🔹 Atualiza o timer visual inicial
+    updateDisplay();
 });
+
+updateDisplay();

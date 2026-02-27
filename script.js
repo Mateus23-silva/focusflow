@@ -2,7 +2,12 @@ const input = document.getElementById("task-Input");
 const button = document.getElementById("addButton");
 const list = document.getElementById("taskList");
 
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let tasksByDate = JSON.parse(localStorage.getItem("tasksByDate")) || {};
+
+let currentDate = localStorage.getItem("sessionDate") 
+    || new Date().toISOString().split("T")[0];
+
+let tasks = tasksByDate[currentDate] || [];
 
 button.addEventListener("click", addTask);
 
@@ -52,16 +57,17 @@ function renderTasks() {
 
         list.appendChild(li);
 
-        if (task.done) {
-            span.style.textDecoration = "line-through";
-            span.style.opacity = "0.5";
+       if (task.done) {
+            li.classList.add("completed");
         }
-
+        
+        updateDailyProgress();
     });
 }
 
 function saveTasks() {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    tasksByDate[currentDate] = tasks;
+    localStorage.setItem("tasksByDate", JSON.stringify(tasksByDate));
 }
 
 
@@ -70,6 +76,7 @@ function removeTask(id) {
 
     saveTasks();
     renderTasks();
+    updateDailyProgress();
 }
 
 function toggleTask(id) {
@@ -82,7 +89,38 @@ function toggleTask(id) {
 
     saveTasks();
     renderTasks();
+    updateDailyProgress();
 }
 
-
 renderTasks();
+
+window.addEventListener("storage", (event) => {
+    if (event.key === "sessionDate") {
+        currentDate = localStorage.getItem("sessionDate");
+
+        tasks = tasksByDate[currentDate] || [];
+
+        renderTasks();
+    }
+});
+
+function updateDailyProgress() {
+    if (tasks.length === 0) {
+        document.getElementById("progressBar").style.width = "0%";
+        document.getElementById("progressText").textContent = "0% concluído";
+        document.getElementById("productiveBadge").style.display = "none";
+        return;
+    }
+
+    const done = tasks.filter(t => t.done).length;
+    const percent = Math.round((done / tasks.length) * 100);
+
+    document.getElementById("progressBar").style.width = percent + "%";
+    document.getElementById("progressText").textContent = `${percent}% concluído`;
+
+    if (percent >= 70) {
+        document.getElementById("productiveBadge").style.display = "block";
+    } else {
+        document.getElementById("productiveBadge").style.display = "none";
+    }
+}

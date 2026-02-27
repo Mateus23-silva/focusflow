@@ -56,3 +56,105 @@ button {
     margin-top: 10px;
     cursor: pointer;
 }
+
+.timer-container {
+    position: relative;
+    width: 220px;
+    margin: 20px auto;
+}
+
+.progress-ring {
+    transform: rotate(-90deg);
+}
+
+.progress-ring-bg {
+    fill: none;
+    stroke: #eee;
+    stroke-width: 10;
+}
+
+.progress-ring-circle {
+    fill: none;
+    stroke: #4caf50;
+    stroke-width: 10;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s linear;
+}
+
+.timer-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
+    font-weight: bold;
+}
+
+body.work-mode {
+    background-color: #f1fff5;
+    transition: background-color 0.5s ease;
+}
+
+body.break-mode {
+    background-color: #f1f7ff;
+    transition: background-color 0.5s ease;
+}
+
+/* animação ao concluir tarefa */
+li span {
+    transition: all 0.25s ease;
+}
+
+li.completed span {
+    text-decoration: line-through;
+    opacity: 0.5;
+    transform: scale(0.98);
+}
+
+/* animação de entrada da tarefa */
+li {
+    animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.daily-progress {
+    width: 100%;
+    height: 10px;
+    background: #2a2a2a;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+#progressBar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #4caf50, #8bc34a);
+    transition: width 0.3s ease;
+}
+
+#progressText {
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+#productiveBadge {
+    color: #4caf50;
+    font-weight: bold;
+    animation: pop 0.4s ease;
+}
+
+@keyframes pop {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
